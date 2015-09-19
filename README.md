@@ -20,7 +20,6 @@ import pageAction from './pageAction';
 
 const routes = {
   '/': indexAction,
-  '/index.html': indexAction,
   '/page/': [() => {console.log('/page/')}, pageAction],
   '/page2/index.html': [() => {console.log('/page2/index.html')}, pageAction],
   '/page.html': [() => {console.log('/page.html')}, pageAction],
@@ -36,9 +35,9 @@ router.run();
 
 ## API
 
-### `.configure()`
+### `.configure(routes = {})`
 
-### `.run()`
+### `.run(pathname = location.pathname)`
 
 ### `.addRoute()`
 

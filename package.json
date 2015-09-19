@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "lint": "eslint src/",
+    "start": "npm run compile -- -w",
     "test": "mocha --compilers js:espower-babel/guess test/**/*.js",
     "compile": "babel -d lib/ src/",
     "standalone": "browserify src/routeur.js -t babelify -s Routeur -p licensify | derequire > build/routeur.js",
@@ -41,8 +42,9 @@
     "uglify-js": "^2.4.24"
   },
   "dependencies": {
+    "ext-regex": "^1.0.0",
+    "glob-to-regexp": "^0.1.0",
     "object-assign": "^4.0.1",
-    "object.omit": "^2.0.0",
-    "path-to-regexp": "^1.2.1"
+    "object.omit": "^2.0.0"
   }
 }

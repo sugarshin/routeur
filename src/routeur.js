@@ -6,9 +6,13 @@
 
 'use strict';
 
-import pathToRegexp from 'path-to-regexp';
+import globToRegexp from 'glob-to-regexp';
 import assign from 'object-assign';
 import omit from 'object.omit';
+import extRegex from 'ext-regex';
+
+import objectForEach from './util/objectForEach';
+import indexRegex from './util/indexRegex';
 
 export default class Routeur {
 
@@ -27,18 +31,20 @@ export default class Routeur {
   /**
    * run
    *
+   * @param  {String} currentPathName
    */
-  run() {
+  run(currentPathName = location.pathname || '') {
     const { rootPath } = this.config;
-    const currentPathName = location.pathname;
 
-    Object.keys(this.routes).forEach(pathName => {
-      const regexp = pathToRegexp(`${rootPath}${pathName}`);
+    objectForEach(this.routes, (actionOrActions, pathName) => {
+      const globPath = this._getGlobPath(rootPath, pathName);
+      const regexp = globToRegexp(globPath, {extended: true});
+
       if (regexp.test(currentPathName)) {
-        if (typeof this.routes[pathName] === 'function') {
-          this.routes[pathName]();
-        } else if (Array.isArray(this.routes[pathName])) {
-          this.routes[pathName].forEach(action => {
+        if (typeof actionOrActions === 'function') {
+          actionOrActions();
+        } else if (Array.isArray(actionOrActions)) {
+          actionOrActions.forEach(action => {
             action();
           });
         }
@@ -77,6 +83,25 @@ export default class Routeur {
   removeRoute(pathName) {
     this.routes = omit(this.routes, pathName);
     return this;
+  }
+
+  /**
+   * _getGlobPath
+   *
+   * @param  {String} rootPath
+   * @param  {String} pathName
+   * @return {String} glob
+   */
+  _getGlobPath(rootPath, pathName) {
+    if (extRegex().test(pathName)) {
+      return `${rootPath}${pathName}`;
+    }
+
+    if (indexRegex().test(pathName)) {
+      return `${rootPath}${pathName}{,index.html}`;
+    }
+
+    return `${rootPath}${pathName}{/,/index.html}`;
   }
 
 }

@@ -12,15 +12,7 @@ describe('Router', () => {
   describe('constructor', () => {
     it('case1', () => {
       const routes = {
-        ['/']() {console.log('/')},
-        '/page/': [
-          () => {console.log('/page/')},
-          () => {console.log('/page/ 2')}
-        ],
-        '/page.html': [
-          () => {console.log('/page.html 1')},
-          () => {console.log('/page.html 2')}
-        ]
+        ['/']() {}
       };
 
       const router = new Router(routes);
@@ -43,7 +35,29 @@ describe('Router', () => {
   });
 
   describe('run', () => {
-    it('case /', () => {
+    it('case / => /index.html', () => {
+      global.location.pathname = '/index.html';
+
+      let expected = false;
+
+      const routes = {
+        ['/']() {
+          expected = true
+        },
+        '/page/': [
+          () => { expected = false; },
+          () => { expected = false; }
+        ],
+        ['/page.html']() {
+          expected = false;
+        }
+      };
+      const router = new Router(routes);
+      router.run();
+      assert(expected);
+    });
+
+    it('case / => /', () => {
       global.location.pathname = '/';
 
       let expected = false;
@@ -53,11 +67,11 @@ describe('Router', () => {
           expected = true
         },
         '/page/': [
-          () => {console.log('/page/')},
-          () => {console.log('/page/ 2')}
+          () => { expected = false; },
+          () => { expected = false; }
         ],
         ['/page.html']() {
-          console.log('/page.html 1');
+          expected = false;
         }
       };
       const router = new Router(routes);
@@ -88,6 +102,21 @@ describe('Router', () => {
 
       const routes = {
         ['/page.html']() {
+          expected = true;
+        }
+      };
+      const router = new Router(routes);
+      router.run();
+      assert(expected);
+    });
+
+    it('case /path/to/page.html', () => {
+      global.location.pathname = '/path/to/page.html';
+
+      let expected = false;
+
+      const routes = {
+        ['/path/to/page.html']() {
           expected = true;
         }
       };
