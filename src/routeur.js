@@ -1,5 +1,5 @@
 /*!
- * @license routeur
+ * routeur
  * (c) sugarshin
  * License: MIT
  */
@@ -8,6 +8,7 @@
 
 import pathToRegexp from 'path-to-regexp';
 import assign from 'object-assign';
+import omit from 'object.omit';
 
 export default class Routeur {
 
@@ -74,7 +75,7 @@ export default class Routeur {
    * @return {Router instance} this
    */
   removeRoute(pathName) {
-    this.routes = this.routes.filter(pathname => pathname !== pathName);
+    this.routes = omit(this.routes, pathName);
     return this;
   }
 

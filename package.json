@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "object-assign": "^4.0.1",
+    "object.omit": "^2.0.0",
     "path-to-regexp": "^1.2.1"
   }
 }
