@@ -2,7 +2,13 @@ import assert from 'power-assert';
 
 import Router from '../';
 
-describe('Routeur', () => {
+before(done => {
+  global.location = global.location || {};
+  done();
+});
+
+describe('Router', () => {
+
   describe('constructor', () => {
     it('case1', () => {
       const routes = {
@@ -38,7 +44,6 @@ describe('Routeur', () => {
 
   describe('run', () => {
     it('case /', () => {
-      global.location = global.location || {};
       global.location.pathname = '/';
 
       let expected = false;
@@ -61,7 +66,6 @@ describe('Routeur', () => {
     });
 
     it('case /page/', () => {
-      global.location = global.location || {};
       global.location.pathname = '/page/';
 
       let expected1 = false, expected2 = false;
@@ -78,7 +82,6 @@ describe('Routeur', () => {
     });
 
     it('case /page.html', () => {
-      global.location = global.location || {};
       global.location.pathname = '/page.html';
 
       let expected = false;
@@ -93,4 +96,41 @@ describe('Routeur', () => {
       assert(expected);
     });
   });
+
+  describe('addRoute', () => {
+    it('case1', () => {
+      global.location.pathname = '/';
+
+      let expected = false;
+      const router = new Router();
+
+      router.addRoute({
+        ['/']() {
+          expected = true;
+        }
+      });
+
+      router.run();
+      assert(expected);
+    });
+  });
+
+  describe('removeRoute', () => {
+    it('case1', () => {
+      global.location.pathname = '/';
+
+      let expected = true;
+      const router = new Router({
+        ['/']() {
+          expected = false;
+        }
+      });
+
+      router.removeRoute('/');
+
+      router.run();
+      assert(expected);
+    });
+  });
+
 });
