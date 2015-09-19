@@ -8,7 +8,6 @@
   },
   "main": "index.js",
   "files": [
-    "examples",
     "index.js",
     "lib",
     "package.json",
