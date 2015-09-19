@@ -13,6 +13,6 @@
     "watchify": "^3.4.0"
   },
   "dependencies": {
-    "router": "file:../"
+    "routeur": "file:../"
   }
 }
