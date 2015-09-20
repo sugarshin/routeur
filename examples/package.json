@@ -2,6 +2,7 @@
   "name": "examples",
   "description": "",
   "scripts": {
+    "preinstall": "cd .. && npm run compile && cd examples",
     "watch:js": "watchify -d src/index.js -t babelify -o bundle.js -v",
     "serve": "browser-sync start --files ./bundle.js --server",
     "start": "npm run watch:js & npm run serve"
