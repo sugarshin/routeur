@@ -39,7 +39,7 @@ router.run();
 
 ### `.run(pathname = location.pathname)`
 
-### `.addRoute(route)`
+### `.addRoute(pathname[or route object], action)`
 
 ### `.removeRoute(pathname)`
 

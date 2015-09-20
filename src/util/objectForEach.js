@@ -3,7 +3,7 @@
  *
  * @param  {Object} object
  * @param  {Function} callback
- * @param  {Any} context
+ * @param  {Any} context = global
  */
 
 'use strict';

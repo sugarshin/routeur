@@ -13,13 +13,15 @@ import extRegex from 'ext-regex';
 
 import objectForEach from './util/objectForEach';
 import indexRegex from './util/indexRegex';
+import isString from './util/isString';
 
 export default class Routeur {
 
   /**
    * constructor
    *
-   * @param  {Object} routes
+   * @param  {Object} routes = {}
+   * @param  {Object} config
    */
   constructor(routes = {}, config) {
     this.routes = routes;
@@ -31,7 +33,7 @@ export default class Routeur {
   /**
    * run
    *
-   * @param  {String} currentPathName
+   * @param  {String} currentPathName = location.pathname || ''
    */
   run(currentPathName = location.pathname || '') {
     objectForEach(this.routes, (actionOrActions, pathName) => {
@@ -42,7 +44,7 @@ export default class Routeur {
         if (typeof actionOrActions === 'function') {
           actionOrActions();
         } else if (Array.isArray(actionOrActions)) {
-          actionOrActions.forEach(action => { action(); });
+          actionOrActions.forEach(action => action());
         }
       }
     });
@@ -52,7 +54,7 @@ export default class Routeur {
    * configure
    *
    * @param  {Object} config
-   * @return {Router instance} this
+   * @return {Routeur} this
    */
   configure(config) {
     this.config = assign({}, this.config, config);
@@ -62,11 +64,17 @@ export default class Routeur {
   /**
    * addRoute
    *
-   * @param  {Object} route
-   * @return {Router instance} this
+   * @param  {String or Object} pathName or route
+   * @param  {Function or Functions Array} actionOrActions
+   * @return {Routeur} this
    */
-  addRoute(route) {
-    this.routes = assign({}, this.routes, route);
+  addRoute(pathName /* or route object */, actionOrActions) {
+    if (isString(pathName)) {
+      this.routes[pathName] = actionOrActions;
+    } else {
+      const route = pathName;
+      this.routes = assign({}, this.routes, route);
+    }
     return this;
   }
 
@@ -74,7 +82,7 @@ export default class Routeur {
    * removeRoute
    *
    * @param  {String} pathName
-   * @return {Router instance} this
+   * @return {Routeur} this
    */
   removeRoute(pathName) {
     this.routes = omit(this.routes, pathName);
