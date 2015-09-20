@@ -1,5 +1,5 @@
 /*!
- * routeur
+ * @license routeur
  * (c) sugarshin
  * License: MIT
  */
