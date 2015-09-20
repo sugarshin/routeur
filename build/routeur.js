@@ -5,7 +5,7 @@
  * routeur:
  *   license: MIT
  *   author: sugarshin
- *   version: 0.0.2
+ *   version: 0.1.1
  * 
  * ext-regex:
  *   license: MIT
@@ -303,7 +303,7 @@ module.exports = function omit(obj, keys) {
 
 },{"for-own":3,"is-extendable":5}],8:[function(_dereq_,module,exports){
 /*!
- * routeur
+ * @license routeur
  * (c) sugarshin
  * License: MIT
  */
