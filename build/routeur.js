@@ -5,7 +5,7 @@
  * routeur:
  *   license: MIT
  *   author: sugarshin
- *   version: 0.1.3
+ *   version: 0.2.0
  * 
  * ext-regex:
  *   license: MIT
@@ -344,12 +344,17 @@ var _utilIndexRegex = _dereq_('./util/indexRegex');
 
 var _utilIndexRegex2 = _interopRequireDefault(_utilIndexRegex);
 
+var _utilIsString = _dereq_('./util/isString');
+
+var _utilIsString2 = _interopRequireDefault(_utilIsString);
+
 var Routeur = (function () {
 
   /**
    * constructor
    *
-   * @param  {Object} routes
+   * @param  {Object} routes = {}
+   * @param  {Object} config
    */
 
   function Routeur(routes, config) {
@@ -366,7 +371,7 @@ var Routeur = (function () {
   /**
    * run
    *
-   * @param  {String} currentPathName
+   * @param  {String} currentPathName = location.pathname || ''
    */
 
   _createClass(Routeur, [{
@@ -385,7 +390,7 @@ var Routeur = (function () {
             actionOrActions();
           } else if (Array.isArray(actionOrActions)) {
             actionOrActions.forEach(function (action) {
-              action();
+              return action();
             });
           }
         }
@@ -396,7 +401,7 @@ var Routeur = (function () {
      * configure
      *
      * @param  {Object} config
-     * @return {Router instance} this
+     * @return {Routeur} this
      */
   }, {
     key: 'configure',
@@ -408,13 +413,19 @@ var Routeur = (function () {
     /**
      * addRoute
      *
-     * @param  {Object} route
-     * @return {Router instance} this
+     * @param  {String or Object} pathName or route
+     * @param  {Function or Functions Array} actionOrActions
+     * @return {Routeur} this
      */
   }, {
     key: 'addRoute',
-    value: function addRoute(route) {
-      this.routes = (0, _objectAssign2['default'])({}, this.routes, route);
+    value: function addRoute(pathName, /* or route object */actionOrActions) {
+      if ((0, _utilIsString2['default'])(pathName)) {
+        this.routes[pathName] = actionOrActions;
+      } else {
+        var route = pathName;
+        this.routes = (0, _objectAssign2['default'])({}, this.routes, route);
+      }
       return this;
     }
 
@@ -422,7 +433,7 @@ var Routeur = (function () {
      * removeRoute
      *
      * @param  {String} pathName
-     * @return {Router instance} this
+     * @return {Routeur} this
      */
   }, {
     key: 'removeRoute',
@@ -459,7 +470,7 @@ var Routeur = (function () {
 exports['default'] = Routeur;
 module.exports = exports['default'];
 
-},{"./util/indexRegex":9,"./util/objectForEach":10,"ext-regex":1,"glob-to-regexp":4,"object-assign":6,"object.omit":7}],9:[function(_dereq_,module,exports){
+},{"./util/indexRegex":9,"./util/isString":10,"./util/objectForEach":11,"ext-regex":1,"glob-to-regexp":4,"object-assign":6,"object.omit":7}],9:[function(_dereq_,module,exports){
 /**
  * indexRegex
  *
@@ -481,13 +492,34 @@ function indexRegex() {
 module.exports = exports['default'];
 
 },{}],10:[function(_dereq_,module,exports){
+/**
+ * isString
+ *
+ * @return  {Boolean}
+ */
+
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = isString;
+var toString = Object.prototype.toString;
+
+function isString(value) {
+  return toString.call(value) === '[object String]';
+}
+
+module.exports = exports['default'];
+
+},{}],11:[function(_dereq_,module,exports){
 (function (global){
 /**
  * objectForEach
  *
  * @param  {Object} object
  * @param  {Function} callback
- * @param  {Any} context
+ * @param  {Any} context = global
  */
 
 'use strict';
