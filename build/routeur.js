@@ -5,7 +5,7 @@
  * routeur:
  *   license: MIT
  *   author: sugarshin
- *   version: 0.1.1
+ *   version: 0.1.2
  * 
  * ext-regex:
  *   license: MIT
@@ -482,6 +482,7 @@ function indexRegex() {
 module.exports = exports['default'];
 
 },{}],10:[function(_dereq_,module,exports){
+(function (global){
 /**
  * objectForEach
  *
@@ -498,14 +499,15 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = objectForEach;
 
 function objectForEach(object, callback) {
-  var context = arguments.length <= 2 || arguments[2] === undefined ? this : arguments[2];
+  var context = arguments.length <= 2 || arguments[2] === undefined ? global : arguments[2];
 
-  Object.keys(object).forEach(function (key, i) {
+  Object.keys(object).forEach(function (key, i, object) {
     callback.call(context, object[key], key, i, object);
   });
 }
 
 module.exports = exports['default'];
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[8])(8)
 });
