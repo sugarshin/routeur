@@ -5,7 +5,7 @@
  * routeur:
  *   license: MIT
  *   author: sugarshin
- *   version: 0.2.0
+ *   version: 0.2.1
  * 
  * ext-regex:
  *   license: MIT
@@ -348,6 +348,10 @@ var _utilIsString = _dereq_('./util/isString');
 
 var _utilIsString2 = _interopRequireDefault(_utilIsString);
 
+var _utilIsFunction = _dereq_('./util/isFunction');
+
+var _utilIsFunction2 = _interopRequireDefault(_utilIsFunction);
+
 var Routeur = (function () {
 
   /**
@@ -386,7 +390,7 @@ var Routeur = (function () {
         var regexp = (0, _globToRegexp2['default'])(globPath, { extended: true });
 
         if (regexp.test(currentPathName)) {
-          if (typeof actionOrActions === 'function') {
+          if ((0, _utilIsFunction2['default'])(actionOrActions)) {
             actionOrActions();
           } else if (Array.isArray(actionOrActions)) {
             actionOrActions.forEach(function (action) {
@@ -470,7 +474,7 @@ var Routeur = (function () {
 exports['default'] = Routeur;
 module.exports = exports['default'];
 
-},{"./util/indexRegex":9,"./util/isString":10,"./util/objectForEach":11,"ext-regex":1,"glob-to-regexp":4,"object-assign":6,"object.omit":7}],9:[function(_dereq_,module,exports){
+},{"./util/indexRegex":9,"./util/isFunction":10,"./util/isString":11,"./util/objectForEach":12,"ext-regex":1,"glob-to-regexp":4,"object-assign":6,"object.omit":7}],9:[function(_dereq_,module,exports){
 /**
  * indexRegex
  *
@@ -493,6 +497,27 @@ module.exports = exports['default'];
 
 },{}],10:[function(_dereq_,module,exports){
 /**
+ * isFunction
+ *
+ * @return  {Boolean}
+ */
+
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = isFunction;
+var toString = Object.prototype.toString;
+
+function isFunction(value) {
+  return toString.call(value) === '[object Function]';
+}
+
+module.exports = exports['default'];
+
+},{}],11:[function(_dereq_,module,exports){
+/**
  * isString
  *
  * @return  {Boolean}
@@ -512,7 +537,7 @@ function isString(value) {
 
 module.exports = exports['default'];
 
-},{}],11:[function(_dereq_,module,exports){
+},{}],12:[function(_dereq_,module,exports){
 (function (global){
 /**
  * objectForEach
