@@ -14,6 +14,7 @@ import extRegex from 'ext-regex';
 import objectForEach from './util/objectForEach';
 import indexRegex from './util/indexRegex';
 import isString from './util/isString';
+import isFunction from './util/isFunction';
 
 export default class Routeur {
 
@@ -41,7 +42,7 @@ export default class Routeur {
       const regexp = globToRegexp(globPath, {extended: true});
 
       if (regexp.test(currentPathName)) {
-        if (typeof actionOrActions === 'function') {
+        if (isFunction(actionOrActions)) {
           actionOrActions();
         } else if (Array.isArray(actionOrActions)) {
           actionOrActions.forEach(action => action());
