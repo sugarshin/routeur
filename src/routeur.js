@@ -21,11 +21,11 @@ export default class Routeur {
    *
    * @param  {Object} routes
    */
-  constructor(routes = {}) {
+  constructor(routes = {}, config) {
     this.routes = routes;
-    this.config = {
+    this.config = assign({
       rootPath: ''
-    };
+    }, config);
   }
 
   /**
@@ -34,19 +34,15 @@ export default class Routeur {
    * @param  {String} currentPathName
    */
   run(currentPathName = location.pathname || '') {
-    const { rootPath } = this.config;
-
     objectForEach(this.routes, (actionOrActions, pathName) => {
-      const globPath = this._getGlobPath(rootPath, pathName);
+      const globPath = this._getGlobPath(this.config.rootPath, pathName);
       const regexp = globToRegexp(globPath, {extended: true});
 
       if (regexp.test(currentPathName)) {
         if (typeof actionOrActions === 'function') {
           actionOrActions();
         } else if (Array.isArray(actionOrActions)) {
-          actionOrActions.forEach(action => {
-            action();
-          });
+          actionOrActions.forEach(action => { action(); });
         }
       }
     });

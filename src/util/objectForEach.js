@@ -9,7 +9,7 @@
 'use strict';
 
 export default function objectForEach(object, callback, context = global) {
-  Object.keys(object).forEach((key, i, object) => {
+  Object.keys(object).forEach((key, i) => {
     callback.call(context, object[key], key, i, object);
   });
 }
