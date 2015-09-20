@@ -5,7 +5,7 @@
  * routeur:
  *   license: MIT
  *   author: sugarshin
- *   version: 0.1.2
+ *   version: 0.1.3
  * 
  * ext-regex:
  *   license: MIT
@@ -352,15 +352,15 @@ var Routeur = (function () {
    * @param  {Object} routes
    */
 
-  function Routeur() {
-    var routes = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  function Routeur(routes, config) {
+    if (routes === undefined) routes = {};
 
     _classCallCheck(this, Routeur);
 
     this.routes = routes;
-    this.config = {
+    this.config = (0, _objectAssign2['default'])({
       rootPath: ''
-    };
+    }, config);
   }
 
   /**
@@ -375,10 +375,9 @@ var Routeur = (function () {
       var _this = this;
 
       var currentPathName = arguments.length <= 0 || arguments[0] === undefined ? location.pathname || '' : arguments[0];
-      var rootPath = this.config.rootPath;
 
       (0, _utilObjectForEach2['default'])(this.routes, function (actionOrActions, pathName) {
-        var globPath = _this._getGlobPath(rootPath, pathName);
+        var globPath = _this._getGlobPath(_this.config.rootPath, pathName);
         var regexp = (0, _globToRegexp2['default'])(globPath, { extended: true });
 
         if (regexp.test(currentPathName)) {
@@ -501,7 +500,7 @@ exports['default'] = objectForEach;
 function objectForEach(object, callback) {
   var context = arguments.length <= 2 || arguments[2] === undefined ? global : arguments[2];
 
-  Object.keys(object).forEach(function (key, i, object) {
+  Object.keys(object).forEach(function (key, i) {
     callback.call(context, object[key], key, i, object);
   });
 }
