@@ -4,7 +4,7 @@
 [![GitHub version][github-ver-image]][github-ver-url]
 [![License][license-image]][license-url]
 
-Super tiny static url router
+Super tiny clientside static url router
 
 ```
 npm i routeur
