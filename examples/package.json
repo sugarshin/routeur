@@ -3,15 +3,13 @@
   "description": "",
   "scripts": {
     "preinstall": "cd .. && npm run compile && cd examples",
-    "watch:js": "watchify -d src/index.js -t babelify -o bundle.js -v",
-    "serve": "browser-sync start --files ./bundle.js --server",
-    "start": "npm run watch:js & npm run serve"
+    "start": "budo index.js -ol -- -t babelify | garnish"
   },
   "license": "MIT",
   "devDependencies": {
     "babelify": "^6.3.0",
-    "browser-sync": "^2.9.3",
-    "watchify": "^3.4.0"
+    "budo": "^5.1.0",
+    "garnish": "^3.2.1"
   },
   "dependencies": {
     "routeur": "file:../"
