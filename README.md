@@ -1,7 +1,7 @@
 # routeur
 
 [![Build Status][travis-image]][travis-url]
-[![Dependency Status](david-image)][david-url]
+[![Dependency Status][david-image]][david-url]
 [![GitHub version][github-ver-image]][github-ver-url]
 [![License][license-image]][license-url]
 
