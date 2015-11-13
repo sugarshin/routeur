@@ -4,17 +4,14 @@
  * License: MIT
  */
 
-'use strict';
-
 import globToRegexp from 'glob-to-regexp';
-import assign from 'object-assign';
-import omit from 'object.omit';
 import extRegex from 'ext-regex';
 
-import objectForEach from './util/objectForEach';
-import indexRegex from './util/indexRegex';
-import isString from './util/isString';
-import isFunction from './util/isFunction';
+import objectForEach from './utils/objectForEach';
+import objectFilter from './utils/objectFilter';
+import indexRegex from './utils/indexRegex';
+import isString from './utils/isString';
+import isFunction from './utils/isFunction';
 
 export default class Routeur {
 
@@ -26,20 +23,19 @@ export default class Routeur {
    */
   constructor(routes = {}, config) {
     this.routes = routes;
-    this.config = assign({
-      rootPath: ''
-    }, config);
+    this.config = { rootPath: '', ...config };
   }
 
   /**
    * run
    *
-   * @param  {String} currentPathName = location.pathname || ''
+   * @param   {String} currentPathName = location.pathname || ''
+   * @returns {void}
    */
   run(currentPathName = location.pathname || '') {
     objectForEach(this.routes, (actionOrActions, pathName) => {
       const globPath = this._getGlobPath(this.config.rootPath, pathName);
-      const regexp = globToRegexp(globPath, {extended: true});
+      const regexp = globToRegexp(globPath, { extended: true });
 
       if (regexp.test(currentPathName)) {
         if (isFunction(actionOrActions)) {
@@ -54,48 +50,45 @@ export default class Routeur {
   /**
    * configure
    *
-   * @param  {Object} config
-   * @return {Routeur} this
+   * @param   {Object} config
+   * @returns {void}
    */
   configure(config) {
-    this.config = assign({}, this.config, config);
-    return this;
+    this.config = { ...this.config, ...config };
   }
 
   /**
    * addRoute
    *
-   * @param  {String or Object} pathName or route
-   * @param  {Function or Functions Array} actionOrActions
-   * @return {Routeur} this
+   * @param   {String or Object} pathName or routes
+   * @param   {Function or Functions Array} actionOrActions
+   * @returns {void}
    */
-  addRoute(pathName /* or route object */, actionOrActions) {
+  addRoute(pathName, actionOrActions) {
     if (isString(pathName)) {
       this.routes[pathName] = actionOrActions;
     } else {
       const route = pathName;
-      this.routes = assign({}, this.routes, route);
+      this.routes = { ...this.routes, ...route };
     }
-    return this;
   }
 
   /**
    * removeRoute
    *
-   * @param  {String} pathName
-   * @return {Routeur} this
+   * @param   {String} pathName
+   * @returns {void}
    */
   removeRoute(pathName) {
-    this.routes = omit(this.routes, pathName);
-    return this;
+    this.routes = objectFilter(this.routes, (val, key) => key !== pathName);
   }
 
   /**
    * _getGlobPath
    *
-   * @param  {String} rootPath
-   * @param  {String} pathName
-   * @return {String} glob
+   * @param   {String} rootPath
+   * @param   {String} pathName
+   * @returns {String} glob
    */
   _getGlobPath(rootPath, pathName) {
     if (extRegex().test(pathName)) {

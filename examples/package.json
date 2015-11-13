@@ -3,13 +3,14 @@
   "description": "",
   "scripts": {
     "preinstall": "cd .. && npm run compile && cd examples",
-    "start": "budo index.js -ol -- -t babelify | garnish"
+    "start": "budo index.js -ol -- -t [ babelify --presets [ es2015 ] ] | garnish"
   },
   "license": "MIT",
   "devDependencies": {
-    "babelify": "^6.3.0",
-    "budo": "^5.1.0",
-    "garnish": "^3.2.1"
+    "babel-preset-es2015": "^6.1.18",
+    "babelify": "^7.2.0",
+    "budo": "^6.0.4",
+    "garnish": "^4.1.1"
   },
   "dependencies": {
     "routeur": "file:../"

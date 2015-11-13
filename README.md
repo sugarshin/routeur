@@ -1,6 +1,7 @@
 # routeur
 
 [![Build Status][travis-image]][travis-url]
+[![Dependency Status](david-image)][david-url]
 [![GitHub version][github-ver-image]][github-ver-url]
 [![License][license-image]][license-url]
 
@@ -35,7 +36,7 @@ router.run();
 
 ## API
 
-### `.configure(routes = {})`
+### `.configure(config)`
 
 ### `.run(pathname = location.pathname)`
 
@@ -61,6 +62,8 @@ router.run();
 [npm-url]: https://www.npmjs.org/package/routeur
 [bower-image]: http://img.shields.io/bower/v/routeur.svg
 [bower-url]: http://bower.io/search/?q=routeur
+[david-image]: https://david-dm.org/sugarshin/routeur.svg
+[david-url]: https://david-dm.org/sugarshin/routeur
 [travis-image]: http://img.shields.io/travis/sugarshin/routeur/master.svg?branch=master
 [travis-url]: https://travis-ci.org/sugarshin/routeur
 [gratipay-image]: http://img.shields.io/gratipay/sugarshin.svg

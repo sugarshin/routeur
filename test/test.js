@@ -1,6 +1,6 @@
 import assert from 'power-assert';
 
-import Router from '../';
+import Router from '..';
 
 before(done => {
   global.location = global.location || {};

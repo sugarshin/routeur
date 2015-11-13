@@ -1,10 +1,8 @@
 /**
  * indexRegex
  *
- * @return  {Regexp}
+ * @returns {Regexp}
  */
-
-'use strict';
 
 export default function indexRegex() {
   return /\/$/;
