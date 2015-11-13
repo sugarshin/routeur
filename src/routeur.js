@@ -11,7 +11,6 @@ import objectForEach from './utils/objectForEach';
 import objectFilter from './utils/objectFilter';
 import indexRegex from './utils/indexRegex';
 import isString from './utils/isString';
-import isFunction from './utils/isFunction';
 
 export default class Routeur {
 
@@ -34,15 +33,13 @@ export default class Routeur {
    */
   run(currentPathName = location.pathname || '') {
     objectForEach(this.routes, (actionOrActions, pathName) => {
-      const globPath = this._getGlobPath(this.config.rootPath, pathName);
+      const globPath = this._getGlobPath(pathName);
       const regexp = globToRegexp(globPath, { extended: true });
+      const finalActions = Array.isArray(actionOrActions) ?
+        actionOrActions : [actionOrActions];
 
       if (regexp.test(currentPathName)) {
-        if (isFunction(actionOrActions)) {
-          actionOrActions();
-        } else if (Array.isArray(actionOrActions)) {
-          actionOrActions.forEach(action => action());
-        }
+        finalActions.forEach(action => action());
       }
     });
   }
@@ -86,20 +83,19 @@ export default class Routeur {
   /**
    * _getGlobPath
    *
-   * @param   {String} rootPath
    * @param   {String} pathName
    * @returns {String} glob
    */
-  _getGlobPath(rootPath, pathName) {
+  _getGlobPath(pathName) {
     if (extRegex().test(pathName)) {
-      return `${rootPath}${pathName}`;
+      return `${this.config.rootPath}${pathName}`;
     }
 
     if (indexRegex().test(pathName)) {
-      return `${rootPath}${pathName}{,index.html}`;
+      return `${this.config.rootPath}${pathName}{,index.html}`;
     }
 
-    return `${rootPath}${pathName}{/,/index.html}`;
+    return `${this.config.rootPath}${pathName}{/,/index.html}`;
   }
 
 }
