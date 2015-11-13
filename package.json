@@ -1,6 +1,6 @@
 {
   "name": "routeur",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Super tiny clientside static url router",
   "repository": {
     "type": "git",
